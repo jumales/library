@@ -2,6 +2,7 @@ package com.jumales.library.entities;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = false)
+@ToString(callSuper = true)
 public class BookAuthor extends BaseEntity{
 
     @Id

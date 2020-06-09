@@ -1,33 +1,39 @@
 package com.jumales.library.repository;
 
-import com.jumales.library.TestAbstract;
 import com.jumales.library.entities.Book;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-public class BookRepositoryTest extends TestAbstract {
+import java.util.Optional;
 
-    public static final Logger logger = LogManager.getLogger(BookRepositoryTest.class);
+@RunWith(SpringRunner.class)
+@DataJpaTest
+public class BookRepositoryTest{
+
+    @Autowired
+    protected IBookRepository bookRepository;
 
     public static final String BOOK_TITLE = "FIRST_BOOK";
-    public static final String IBN = "1234";
+    public static final String BOOK_IBN = "1234";
 
     @Test
     public void testSaveBook(){
         Book b = new Book();
         b.setTitle(BOOK_TITLE);
-        b.setIbn(IBN);
+        b.setIbn(BOOK_IBN);
 
-        Book savedBook = bookRepository.save(b);
-        logger.info("Book created: '{}'", savedBook);
+        bookRepository.save(b);
 
-        Book bookByIbn = bookRepository.findByIbn(IBN);
-
-        Assert.assertEquals(IBN, bookByIbn.getIbn());
-        Assert.assertEquals(BOOK_TITLE, bookByIbn.getTitle());
-
+        Optional<Book> bookByIbn = bookRepository.findByIbn(BOOK_IBN);
+        if(!bookByIbn.isPresent()){
+            Assert.fail(String.format("Test with IBN '%s' not found", BOOK_IBN));
+        }
+        Assert.assertEquals(BOOK_IBN, bookByIbn.get().getIbn());
+        Assert.assertEquals(BOOK_TITLE, bookByIbn.get().getTitle());
 
     }
 }

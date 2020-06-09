@@ -2,6 +2,7 @@ package com.jumales.library.entities;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,6 +12,7 @@ import java.util.Set;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = false)
+@ToString(callSuper = true)
 public class Author extends BaseEntity{
 
     @Id
