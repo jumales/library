@@ -1,6 +1,7 @@
 package com.jumales.library.entities;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -9,6 +10,7 @@ import java.util.Set;
 @Entity
 @Table(name = "book")
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class Book extends BaseEntity{
 
     @Id

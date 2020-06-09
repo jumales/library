@@ -1,12 +1,14 @@
 package com.jumales.library.entities;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
 @Table(name = "book_author")
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class BookAuthor extends BaseEntity{
 
     @Id
