@@ -1,9 +1,11 @@
 package com.jumales.library.api.book;
 
+import com.jumales.library.BaseTest;
 import com.jumales.library.entities.Book;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -12,10 +14,7 @@ import static org.mockito.BDDMockito.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class BookServiceTest {
-
-    public static final String BOOK_TITLE = "FIRST_BOOK";
-    public static final String BOOK_IBN = "ibn123";
+public class BookServiceTest  extends BaseTest {
 
     @MockBean
     protected IBookApi bookApi;
@@ -27,6 +26,5 @@ public class BookServiceTest {
         b.setIbn(BOOK_IBN);
 
         given(this.bookApi.createBook(b)).willReturn(b);
-
     }
 }

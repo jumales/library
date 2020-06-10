@@ -1,5 +1,6 @@
 package com.jumales.library.repository;
 
+import com.jumales.library.BaseTest;
 import com.jumales.library.entities.Book;
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,13 +13,10 @@ import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class BookRepositoryTest{
+public class BookRepositoryTest extends BaseTest {
 
     @Autowired
     protected IBookRepository bookRepository;
-
-    public static final String BOOK_TITLE = "FIRST_BOOK";
-    public static final String BOOK_IBN = "1234";
 
     @Test
     public void testSaveBook(){
