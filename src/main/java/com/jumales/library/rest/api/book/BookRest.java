@@ -16,7 +16,6 @@ import java.util.List;
 @RequestMapping("${rest.root.url}" + "/books")
 public class BookRest implements IRestBase {
     //TODO: listen https://www.youtube.com/watch?v=996OiexHze0
-    //TODO: https://dzone.com/articles/applying-hateoas-to-a-rest-api-with-spring-boot
     @Autowired
     protected IBookApi bookApi;
 
@@ -47,12 +46,12 @@ public class BookRest implements IRestBase {
 
     @PostMapping(consumes = JSON_CONSUME, produces = JSON_PRODUCE)
     public ResponseEntity<BookDTO> createBook(@RequestBody(required = true) Book book){
-        /*if(book == null) {
+        if(book.getIbn() == null) {
             BookDTO result = new BookDTO.Builder(null)
-                    .setStatus(StatusDTO.badRequest("Parameter is null"))
+                    .setStatus(StatusDTO.badRequest("Parameter is empty"))
                     .build();
             return ResponseEntity.badRequest().body(result);
-        }*/
+        }
 
         if(book.getBookId() != null){
             BookDTO result = mapBookToDTO(book,

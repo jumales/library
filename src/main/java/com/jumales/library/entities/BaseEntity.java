@@ -12,10 +12,10 @@ public abstract class BaseEntity {
     @Column(name = "deleted", columnDefinition = "Bit(1) default false")
     private boolean deleted = false;
 
-    @Column(name = "data_change_created_by", nullable = false)
+    @Column(name = "data_change_created_by")
     private String dataChangeCreatedBy;
 
-    @Column(name = "data_change_created_time", nullable = false)
+    @Column(name = "data_change_created_time")
     private Date dataChangeCreatedTime;
 
     @Column(name = "data_change_last_modified_by")

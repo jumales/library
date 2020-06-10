@@ -17,7 +17,8 @@ import java.util.Set;
 public class Book extends BaseEntity{
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_seq")
+    @SequenceGenerator(name = "book_seq", initialValue = 4, allocationSize = 1)
     @Column(name = "book_id")
     private Long bookId;
 
