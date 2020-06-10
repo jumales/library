@@ -13,7 +13,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
-public class Author extends BaseEntity{
+public class Author{
 
     @Id
     @GeneratedValue

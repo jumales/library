@@ -6,8 +6,8 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Data
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class BaseEntity {
+@Embeddable
+public class Audit {
 
     @Column(name = "deleted", columnDefinition = "Bit(1) default false")
     private boolean deleted = false;

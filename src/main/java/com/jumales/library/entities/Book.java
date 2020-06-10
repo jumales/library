@@ -2,8 +2,6 @@ package com.jumales.library.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -12,9 +10,9 @@ import java.util.Set;
 @Entity
 @Table(name = "book")
 @Data
-@EqualsAndHashCode(callSuper = false)
-@ToString(callSuper = true)
-public class Book extends BaseEntity{
+//@EqualsAndHashCode(callSuper = false)
+//@ToString(callSuper = true)
+public class Book{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_seq")
@@ -35,4 +33,7 @@ public class Book extends BaseEntity{
     )
     @JsonIgnore
     Set<Author> authors = new HashSet<>();
+
+    @Embedded
+    private Audit audit = new Audit();
 }

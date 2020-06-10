@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
-public class BookAuthor extends BaseEntity{
+public class BookAuthor{
 
     @Id
     @GeneratedValue
