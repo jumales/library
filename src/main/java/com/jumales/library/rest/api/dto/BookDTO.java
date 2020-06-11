@@ -1,4 +1,4 @@
-package com.jumales.library.rest.api.entity;
+package com.jumales.library.rest.api.dto;
 
 import lombok.Data;
 
