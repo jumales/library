@@ -1,8 +1,6 @@
 package com.jumales.library.entities;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,8 +9,6 @@ import java.util.Set;
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper = false)
-@ToString(callSuper = true)
 public class Author{
 
     @Id
@@ -28,6 +24,9 @@ public class Author{
 
     @Column(nullable = false, name = "day_of_birth")
     private Date dayOfBirth;
+
+    @Column(nullable = false, name = "oib", unique = true)
+    private String oib;
 
     private Boolean active;
 
