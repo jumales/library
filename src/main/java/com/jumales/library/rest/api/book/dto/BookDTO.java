@@ -1,5 +1,6 @@
-package com.jumales.library.rest.api.dto;
+package com.jumales.library.rest.api.book.dto;
 
+import com.jumales.library.rest.api.dto.StatusDTO;
 import lombok.Data;
 
 @Data

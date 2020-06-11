@@ -3,7 +3,7 @@ package com.jumales.library.rest.api.book;
 import com.jumales.library.entities.Book;
 import com.jumales.library.api.book.IBookApi;
 import com.jumales.library.rest.api.IRestBase;
-import com.jumales.library.rest.api.dto.BookDTO;
+import com.jumales.library.rest.api.book.dto.BookDTO;
 import com.jumales.library.rest.api.dto.StatusDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

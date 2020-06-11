@@ -1,7 +1,6 @@
 package com.jumales.library.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jumales.library.rest.api.dto.BookDTO;
 import lombok.Data;
 
 import javax.persistence.*;
