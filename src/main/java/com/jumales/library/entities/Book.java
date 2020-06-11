@@ -10,8 +10,6 @@ import java.util.Set;
 @Entity
 @Table(name = "book")
 @Data
-//@EqualsAndHashCode(callSuper = false)
-//@ToString(callSuper = true)
 public class Book{
 
     @Id

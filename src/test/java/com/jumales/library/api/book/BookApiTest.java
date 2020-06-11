@@ -14,7 +14,7 @@ import static org.mockito.BDDMockito.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class BookServiceTest  extends BaseTest {
+public class BookApiTest extends BaseTest {
 
     @MockBean
     protected IBookApi bookApi;

@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 
 import javax.annotation.PostConstruct;
+import java.util.Calendar;
+import java.util.Date;
 
 @Data
 public abstract class BaseTest {
@@ -18,6 +20,11 @@ public abstract class BaseTest {
 
     public static final String BOOK_TITLE = "FIRST_BOOK";
     public static final String BOOK_IBN = "1234";
+
+    public static final String AUTHOR_FIRST_NAME = "JURE";
+    public static final String AUTHOR_SECOND_NAME = "MALEŠ";
+    public static final String AUTHOR_OIB = "HR01234567890";
+
 
     @Autowired
     private Environment env;
@@ -29,6 +36,12 @@ public abstract class BaseTest {
             logger.error(message);
             Assert.fail(message);
         }
+    }
+
+    protected Date getDate(int year, int month, int day){
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month, day);
+        return cal.getTime();
     }
 
     @PostConstruct
