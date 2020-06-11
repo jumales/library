@@ -1,6 +1,7 @@
 package com.jumales.library.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jumales.library.rest.api.dto.BookDTO;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -16,7 +17,7 @@ public class Book{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_seq")
-    @SequenceGenerator(name = "book_seq", initialValue = 4, allocationSize = 1)
+    @SequenceGenerator(name = "book_seq", initialValue = 1, allocationSize = 1)
     @Column(name = "book_id")
     private Long bookId;
 

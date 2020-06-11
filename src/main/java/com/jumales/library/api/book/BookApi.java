@@ -20,13 +20,8 @@ public class BookApi implements IBookApi {
     protected IBookRepository bookRepository;
 
     @Override
-    public Book createBook(Book book){
+    public Book saveBook(Book book){
         return bookRepository.save(book);
-    }
-
-    @Override
-    public void editBook(Book book){
-        bookRepository.save(book);
     }
 
     @Override
@@ -39,6 +34,18 @@ public class BookApi implements IBookApi {
     public Book findBookByIbn(String ibn){
         Optional<Book> book = bookRepository.findByIbn(ibn);
         return validateIfBookFound("ibn", ibn, book);
+    }
+
+    /**
+     * if we can't find IBN that it's unique
+     * if we can find and ids are equals then are also unique
+     * */
+    @Override
+    public boolean isIbnUnique(String ibn, Long id){
+        Book bookByIbn = findBookByIbn(ibn);
+        if(bookByIbn == null) return true;
+        if(bookByIbn != null && bookByIbn.getBookId().equals(id)) return true;
+        return false;
     }
 
     @Override

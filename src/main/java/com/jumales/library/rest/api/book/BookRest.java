@@ -45,34 +45,65 @@ public class BookRest implements IRestBase {
     }
 
     @PostMapping(consumes = JSON_CONSUME, produces = JSON_PRODUCE)
-    public ResponseEntity<BookDTO> createBook(@RequestBody(required = true) Book book){
-        if(book.getIbn() == null) {
-            BookDTO result = new BookDTO.Builder(null)
-                    .setStatus(StatusDTO.badRequest("Parameter is empty"))
-                    .build();
-            return ResponseEntity.badRequest().body(result);
+    public ResponseEntity<BookDTO> createBook(@RequestBody(required = true) BookDTO bookDTO){
+        String validation = BookDTO.validateBook(bookDTO, false);
+        if(validation != null){
+            bookDTO.setStatus(StatusDTO.badRequest(validation));
+            return ResponseEntity.badRequest().body(bookDTO);
         }
 
-        if(book.getBookId() != null){
-            BookDTO result = mapBookToDTO(book,
-                    StatusDTO.badRequest(String.format("ID field needs to be null")));
-            return ResponseEntity.badRequest().body(result);
+        if(bookDTO.getId() != null){
+            bookDTO.setStatus(StatusDTO.badRequest(String.format("ID field needs to be null")));
+            return ResponseEntity.badRequest().body(bookDTO);
         }
 
-        Book bookByIbn = bookApi.findBookByIbn(book.getIbn());
-        if(bookByIbn != null){
-            BookDTO result = mapBookToDTO(book,
-                    StatusDTO.badRequest(String.format("Book with IBN '%s' exist!", book.getIbn())));
-            return ResponseEntity.badRequest().body(result);
+        boolean isIbnUnique = bookApi.isIbnUnique(bookDTO.getIbn(), bookDTO.getId());
+        if(!isIbnUnique){
+            bookDTO.setStatus(StatusDTO.badRequest(String.format("Book with IBN '%s' exist!", bookDTO.getIbn())));
+            return ResponseEntity.badRequest().body(bookDTO);
         }
 
-        Book createdBook = bookApi.createBook(book);
+        Book createdBook = bookApi.saveBook(mapDtoToBook(bookDTO));
 
         return ResponseEntity.ok(mapBookToDTO(createdBook, StatusDTO.created()));
     }
 
-    // HELPER METHODS
+    @PutMapping(consumes = JSON_CONSUME, produces = JSON_PRODUCE)
+    public ResponseEntity<BookDTO> updateBook(@RequestBody(required = true) BookDTO bookDTO){
+        String validation = BookDTO.validateBook(bookDTO, true);
+        if(validation != null){
+            bookDTO.setStatus(StatusDTO.badRequest(validation));
+            return ResponseEntity.badRequest().body(bookDTO);
+        }
 
+        boolean isIbnUnique = bookApi.isIbnUnique(bookDTO.getIbn(), bookDTO.getId());
+        if(!isIbnUnique){
+            bookDTO.setStatus(StatusDTO.badRequest(String.format("Book with IBN '%s' exist!", bookDTO.getIbn())));
+            return ResponseEntity.badRequest().body(bookDTO);
+        }
+
+        Book bookById = bookApi.findBookById(bookDTO.getId());
+        if(bookById == null){
+            bookDTO.setStatus(StatusDTO.badRequest(String.format("Book with id '%s' not found.", bookDTO.getId())));
+            return ResponseEntity.badRequest().body(bookDTO);
+        }
+
+        bookById.setTitle(bookDTO.getTitle());
+        bookById.setIbn(bookDTO.getIbn());
+
+        bookApi.saveBook(bookById);
+
+        return ResponseEntity.ok(mapBookToDTO(bookById, StatusDTO.success()));
+    }
+
+    // HELPER METHODS
+    private Book mapDtoToBook(BookDTO dto){
+        Book b = new Book();
+        b.setIbn(dto.getIbn());
+        b.setTitle(dto.getTitle());
+        b.setBookId(dto.getId());
+        return b;
+    }
 
     private BookDTO mapBookToDTO(Book book, StatusDTO status) {
         return new BookDTO.Builder(book.getIbn())

@@ -20,11 +20,11 @@ public class BookServiceTest  extends BaseTest {
     protected IBookApi bookApi;
 
     @Test
-    public void createBookTest(){
+    public void saveBookTest(){
         Book b = new Book();
         b.setTitle(BOOK_TITLE);
         b.setIbn(BOOK_IBN);
 
-        given(this.bookApi.createBook(b)).willReturn(b);
+        given(this.bookApi.saveBook(b)).willReturn(b);
     }
 }

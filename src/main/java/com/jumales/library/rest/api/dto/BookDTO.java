@@ -10,6 +10,13 @@ public class BookDTO{
     private String ibn;
     private StatusDTO status = null;
 
+    public static String validateBook(BookDTO book, boolean controlId){
+        if(book.getIbn() == null || book.getIbn().isEmpty()) return "IBN can't be empty";
+        if(book.getTitle() == null || book.getTitle().isEmpty()) return "Title can't be empty";
+        if(controlId) if(book.getId() == null) return "Id can't be null";
+        return null;
+    }
+
     public static class Builder{
 
         Long id;
