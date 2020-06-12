@@ -12,15 +12,18 @@ public class BookAuthor{
     @Id
     @GeneratedValue
     @Column(name = "book_author_id")
-    private Long bookAuthorId;
+    public Long bookAuthorId;
 
-    @Column(name="book_id", nullable = false)
-    private Long bookId;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name ="book_id")
+    public Book book;
 
-    @Column(name="author_id", nullable = false)
-    private Long authorId;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name ="author_id")
+    public Author author;
 
     @Setter(AccessLevel.NONE)
     @Embedded
-    private Audit audit = new Audit();
+    public Audit audit = new Audit();
+
 }

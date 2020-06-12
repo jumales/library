@@ -1,8 +1,6 @@
 package com.jumales.library.entities;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,8 +13,8 @@ public class Author{
 
     @Id
     @GeneratedValue
-    @Column(name = "author_id")
-    private Long authorId;
+    @Column(name = "id")
+    private Long id;
 
     @Column(nullable = false, name = "first_name")
     private String firstName;
@@ -31,9 +29,6 @@ public class Author{
     private String oib;
 
     private Boolean active;
-
-    @ManyToMany(mappedBy = "authors")
-    private Set<Book> books = new HashSet<>();
 
     @Setter(AccessLevel.NONE)
     @Embedded
