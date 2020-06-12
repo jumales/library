@@ -1,9 +1,12 @@
 package com.jumales.library.rest.api.author.dto;
 
+import com.jumales.library.rest.api.book.dto.BookDTO;
 import com.jumales.library.rest.api.dto.StatusDTO;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class AuthorDTO {
@@ -16,6 +19,7 @@ public class AuthorDTO {
     private String oib;
     private boolean active;
     private StatusDTO status;
+    private List<BookDTO> books = new ArrayList<>();
 
     /**
      * validate author dto
@@ -45,6 +49,7 @@ public class AuthorDTO {
         private String oib;
         private boolean active;
         private StatusDTO status;
+        private List<BookDTO> books = new ArrayList<>();
 
         public Builder(final String oib){
             this.oib = oib;
@@ -80,6 +85,11 @@ public class AuthorDTO {
             return this;
         }
 
+        public Builder addBook(final BookDTO book){
+            this.books.add(book);
+            return this;
+        }
+
         public AuthorDTO build() {
             AuthorDTO dto = new AuthorDTO();
             dto.id = this.id;
@@ -89,7 +99,7 @@ public class AuthorDTO {
             dto.oib = this.oib;
             dto.active = this.active;
             dto.status = this.status;
-
+            dto.books = this.books;
             return dto;
         }
     }
