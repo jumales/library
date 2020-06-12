@@ -47,7 +47,7 @@ public class BookRest implements IRestBase {
     @PostMapping(consumes = JSON_CONSUME, produces = JSON_PRODUCE)
     public ResponseEntity<BookDTO> createBook(@RequestBody(required = true) BookDTO bookDTO){
         String validation = BookDTO.validateBook(bookDTO, false);
-        if(validation != null){
+        if(validation != null){ ;
             bookDTO.setStatus(StatusDTO.badRequest(validation));
             return ResponseEntity.badRequest().body(bookDTO);
         }

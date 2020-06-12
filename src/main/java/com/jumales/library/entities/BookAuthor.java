@@ -1,16 +1,12 @@
 package com.jumales.library.entities;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Table(name = "book_author")
 @Entity
 @Data
-@EqualsAndHashCode(callSuper = false)
-@ToString(callSuper = true)
 public class BookAuthor{
 
     @Id
@@ -23,4 +19,8 @@ public class BookAuthor{
 
     @Column(name="author_id", nullable = false)
     private Long authorId;
+
+    @Setter(AccessLevel.NONE)
+    @Embedded
+    private Audit audit = new Audit();
 }

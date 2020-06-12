@@ -1,5 +1,6 @@
 package com.jumales.library.rest.api.author.dto;
 
+import com.jumales.library.rest.api.dto.StatusDTO;
 import lombok.Data;
 
 import java.util.Date;
@@ -9,11 +10,12 @@ public class AuthorDTO {
 
     private Long id;
     private String firstName;
-    private String lastName;
+    private String secondName;
     private String fullName;
     private Date dayOfBirth;
     private String oib;
     private boolean active;
+    private StatusDTO status;
 
     /**
      * validate author dto
@@ -24,23 +26,25 @@ public class AuthorDTO {
     public static String validateAuthor(AuthorDTO author, boolean controlId){
         if(author.getOib() == null || author.getOib().isEmpty()) return "Author can't be empty";
         if(author.getFirstName() == null || author.getFirstName().isEmpty()) return "First name can't be empty";
-        if(author.getLastName() == null || author.getLastName().isEmpty()) return "Last name can't be empty";
+        if(author.getSecondName() == null || author.getSecondName().isEmpty()) return "Second name can't be empty";
         if(author.getDayOfBirth() == null) return "Day of birth can't be empty";
         if(controlId) if(author.getId() == null) return "Id can't be null";
         return null;
     }
 
     public String getFullName(){
-        return String.format("%s %s", firstName, lastName);
+        return String.format("%s %s", firstName, secondName);
     }
 
     public static class Builder{
+
         private Long id;
         private String firstName;
-        private String lastName;
+        private String secondName;
         private Date dayOfBirth;
         private String oib;
         private boolean active;
+        private StatusDTO status;
 
         public Builder(final String oib){
             this.oib = oib;
@@ -56,8 +60,8 @@ public class AuthorDTO {
             return this;
         }
 
-        public  Builder setLastName(final String flastName){
-            this.lastName = lastName;
+        public  Builder setSecondName(final String secondName){
+            this.secondName = secondName;
             return this;
         }
 
@@ -71,14 +75,20 @@ public class AuthorDTO {
             return this;
         }
 
+        public Builder setStatus(final StatusDTO status){
+            this.status = status;
+            return this;
+        }
+
         public AuthorDTO build() {
             AuthorDTO dto = new AuthorDTO();
             dto.id = this.id;
             dto.firstName = this.firstName;
-            dto.lastName = this.lastName;
+            dto.secondName = this.secondName;
             dto.dayOfBirth = this.dayOfBirth;
             dto.oib = this.oib;
             dto.active = this.active;
+            dto.status = this.status;
 
             return dto;
         }

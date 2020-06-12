@@ -41,7 +41,7 @@ public class DatabaseInitialization {
         b2.setIbn("2222");
         b2.setTitle("Second book");
         b2 = bookApi.saveBook(b2);
-        logger.info("Created: {}", b1);
+        logger.info("Created: {}", b2);
 
         Author a1 = new Author();
         a1.setSecondName("Maleš");

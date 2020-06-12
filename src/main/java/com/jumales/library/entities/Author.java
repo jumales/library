@@ -1,6 +1,8 @@
 package com.jumales.library.entities;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -32,4 +34,8 @@ public class Author{
 
     @ManyToMany(mappedBy = "authors")
     private Set<Book> books = new HashSet<>();
+
+    @Setter(AccessLevel.NONE)
+    @Embedded
+    private Audit audit = new Audit();
 }

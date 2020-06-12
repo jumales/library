@@ -9,7 +9,7 @@ public class BookDTO{
     private Long id;
     private String title;
     private String ibn;
-    private StatusDTO status = null;
+    private StatusDTO status;
 
     public static String validateBook(BookDTO book, boolean controlId){
         if(book.getIbn() == null || book.getIbn().isEmpty()) return "IBN can't be empty";
@@ -23,7 +23,7 @@ public class BookDTO{
         Long id;
         private String title;
         private String ibn;
-        private StatusDTO status= null;
+        private StatusDTO status;
 
         public Builder(final String ibn){
             this.ibn = ibn;
