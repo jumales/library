@@ -2,7 +2,9 @@ package com.jumales.library.rest.api.author.dto;
 
 import com.jumales.library.rest.api.book.dto.BookDTO;
 import com.jumales.library.rest.api.dto.StatusDTO;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,14 +13,22 @@ import java.util.List;
 @Data
 public class AuthorDTO {
 
+    @Setter(AccessLevel.NONE)
     private Long id;
+    @Setter(AccessLevel.NONE)
     private String firstName;
+    @Setter(AccessLevel.NONE)
     private String secondName;
+    @Setter(AccessLevel.NONE)
     private String fullName;
+    @Setter(AccessLevel.NONE)
     private Date dayOfBirth;
+    @Setter(AccessLevel.NONE)
     private String oib;
+    @Setter(AccessLevel.NONE)
     private boolean active;
     private StatusDTO status;
+    @Setter(AccessLevel.NONE)
     private List<BookDTO> books = new ArrayList<>();
 
     /**

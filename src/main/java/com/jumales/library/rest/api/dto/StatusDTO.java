@@ -1,9 +1,17 @@
 package com.jumales.library.rest.api.dto;
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Setter;
+
+@Data
 public class StatusDTO {
 
+    @Setter(AccessLevel.NONE)
     private int code;
+    @Setter(AccessLevel.NONE)
     private String shortMsg;
+    @Setter(AccessLevel.NONE)
     private String longMsg;
 
     private StatusDTO(int code, String shortMsg, String longMsg){
@@ -14,6 +22,10 @@ public class StatusDTO {
 
     public static StatusDTO success(){
         return new StatusDTO(200, "OK", null);
+    }
+
+    public static StatusDTO success(String message) {
+        return new StatusDTO(200, "OK", message);
     }
 
     public static StatusDTO created(){
@@ -30,17 +42,5 @@ public class StatusDTO {
 
     public static StatusDTO unauthorized(String message){
         return new StatusDTO(401, "Unauthorized", message);
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public String getShortMsg() {
-        return shortMsg;
-    }
-
-    public String getLongMsg() {
-        return longMsg;
     }
 }

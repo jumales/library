@@ -14,4 +14,6 @@ public interface IAuthorApi {
     List<Author> findAll();
 
     boolean isOibUnique(String oib, Long id);
+
+    void deleteAuthor(Author author);
 }

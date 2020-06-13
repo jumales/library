@@ -2,8 +2,10 @@ package com.jumales.library.helper;
 
 import com.jumales.library.api.author.IAuthorApi;
 import com.jumales.library.api.book.IBookApi;
+import com.jumales.library.api.book2author.IBookAuthorApi;
 import com.jumales.library.entities.Author;
 import com.jumales.library.entities.Book;
+import com.jumales.library.entities.BookAuthor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class DatabaseInitialization {
 
     @Autowired
     private IAuthorApi authorApi;
+
+    @Autowired
+    private IBookAuthorApi bookAuthorApi;
 
     @EventListener(ApplicationReadyEvent.class)
     public void initDevData() {
@@ -74,5 +79,18 @@ public class DatabaseInitialization {
         a3 = authorApi.saveAuthor(a3);
         logger.info("Created: {}", a3);
 
+        BookAuthor ba1 = new BookAuthor();
+        ba1.setAuthor(a1);
+        ba1.setBook(b1);
+        ba1 = bookAuthorApi.saveBookAuthor(ba1);
+        logger.info("Created: {}", ba1);
+
+        BookAuthor ba2 = new BookAuthor();
+        ba2.setAuthor(a1);
+        ba2.setBook(b2);
+        ba2 = bookAuthorApi.saveBookAuthor(ba2);
+        logger.info("Created: {}", ba2);
+
+        logger.info(bookAuthorApi.findById(ba2.getBookAuthorId()));
     }
 }

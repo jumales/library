@@ -74,10 +74,15 @@ public class AuthorApi implements IAuthorApi, IApiCommon {
         boolean result = true;
         Author authorByOib = findAuthorByOib(oib);
         if (authorByOib != null) {
-            if (authorByOib == null || !authorByOib.getAuthorId().equals(id)) {
+            if (authorByOib == null || !authorByOib.getId().equals(id)) {
                 result = false;
             }
         }
         return result;
+    }
+
+    @Override
+    public void deleteAuthor(Author author){
+        authorRepository.delete(author);
     }
 }
