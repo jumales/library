@@ -14,4 +14,6 @@ public interface IBookApi {
     boolean isIbnUnique(String ibn, Long id);
 
     List<Book> findAll();
+
+    void deleteBook(Book book);
 }

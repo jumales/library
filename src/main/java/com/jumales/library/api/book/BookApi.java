@@ -41,6 +41,11 @@ public class BookApi implements IBookApi, IApiCommon {
         return bookRepository.findAll();
     }
 
+    @Override
+    public void deleteBook(Book book){
+        bookRepository.delete(book);
+    }
+
     /**
      * if we can't find IBN that it's unique
      * if we can find and ids are equals then are also unique
@@ -50,7 +55,7 @@ public class BookApi implements IBookApi, IApiCommon {
         boolean result = true;
         Book bookByIbn = findBookByIbn(ibn);
         if (bookByIbn != null) {
-            if (bookByIbn == null || !bookByIbn.getBookId().equals(id)) {
+            if (bookByIbn == null || !bookByIbn.getId().equals(id)) {
                 result = false;
             }
         }

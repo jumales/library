@@ -3,7 +3,9 @@ package com.jumales.library.rest.api.book.dto;
 import com.jumales.library.entities.Author;
 import com.jumales.library.rest.api.author.dto.AuthorDTO;
 import com.jumales.library.rest.api.dto.StatusDTO;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,10 +13,14 @@ import java.util.List;
 @Data
 public class BookDTO{
 
+    @Setter(AccessLevel.NONE)
     private Long id;
+    @Setter(AccessLevel.NONE)
     private String title;
+    @Setter(AccessLevel.NONE)
     private String ibn;
     private StatusDTO status;
+    @Setter(AccessLevel.NONE)
     private List<AuthorDTO> authors = new ArrayList<>();
 
     public static String validateBook(BookDTO book, boolean controlId){

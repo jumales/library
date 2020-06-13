@@ -1,23 +1,33 @@
 package com.jumales.library.rest.api.book;
 
+import com.jumales.library.api.author.IAuthorApi;
+import com.jumales.library.api.book2author.IBookAuthorApi;
+import com.jumales.library.entities.Author;
 import com.jumales.library.entities.Book;
 import com.jumales.library.api.book.IBookApi;
-import com.jumales.library.rest.api.IRestBase;
+import com.jumales.library.entities.BookAuthor;
+import com.jumales.library.rest.api.IRestCommon;
 import com.jumales.library.rest.api.book.dto.BookDTO;
+import com.jumales.library.rest.api.book2Author.dto.BookAuthorDTO;
 import com.jumales.library.rest.api.dto.StatusDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.module.ResolutionException;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("${rest.root.url}" + "/books")
-public class BookRest implements IRestBase {
+public class BookRest implements IRestCommon {
     //TODO: listen https://www.youtube.com/watch?v=996OiexHze0
     @Autowired
     protected IBookApi bookApi;
+    @Autowired
+    protected IBookAuthorApi bookAuthorApi;
+    @Autowired
+    protected IAuthorApi authorApi;
 
     @GetMapping
     public List<BookDTO> getAllBooks(){
@@ -25,7 +35,7 @@ public class BookRest implements IRestBase {
         List<Book> books = bookApi.findAll();
         books.forEach(b ->
         {
-            BookDTO dto = mapBookToDTO(b, StatusDTO.success());
+            BookDTO dto = mapBookToDTO(b, StatusDTO.success(), null);
             dtos.add(dto);
         });
         return dtos;
@@ -34,14 +44,12 @@ public class BookRest implements IRestBase {
     @GetMapping("/{id}")
     public ResponseEntity<BookDTO> getById(@PathVariable(value = "id", required = true) Long id) {
         Book book = bookApi.findBookById(id);
-        if(book == null){
-            BookDTO result = new BookDTO.Builder(null)
-                    .setStatus(StatusDTO.noContent(String.format("Book with id '%s' not found", id)))
-                    .build();
-            return  ResponseEntity.ok(result);
-        }else{
-            return ResponseEntity.ok(mapBookToDTO(book, StatusDTO.success()));
-        }
+        ResponseEntity<BookDTO> dto1 = isEntityNull(id, book, Book.class.getSimpleName());
+        if (dto1 != null) return dto1;
+
+        List<BookAuthor> authors = bookAuthorApi.findByBookId(id);
+
+        return ResponseEntity.ok(mapBookToDTO(book, StatusDTO.success(), authors));
     }
 
     @PostMapping(consumes = JSON_CONSUME, produces = JSON_PRODUCE)
@@ -65,7 +73,7 @@ public class BookRest implements IRestBase {
 
         Book createdBook = bookApi.saveBook(mapDtoToBook(bookDTO));
 
-        return ResponseEntity.ok(mapBookToDTO(createdBook, StatusDTO.created()));
+        return ResponseEntity.ok(mapBookToDTO(createdBook, StatusDTO.created(), null));
     }
 
     @PutMapping(consumes = JSON_CONSUME, produces = JSON_PRODUCE)
@@ -83,34 +91,108 @@ public class BookRest implements IRestBase {
         }
 
         Book bookById = bookApi.findBookById(bookDTO.getId());
-        if(bookById == null){
-            bookDTO.setStatus(StatusDTO.badRequest(String.format("Book with id '%s' not found.", bookDTO.getId())));
-            return ResponseEntity.badRequest().body(bookDTO);
-        }
+        ResponseEntity<BookDTO> dto1 = isEntityNull(bookDTO.getId(), bookById, Book.class.getSimpleName());
+        if (dto1 != null) return dto1;
 
         bookById.setTitle(bookDTO.getTitle());
         bookById.setIbn(bookDTO.getIbn());
 
         bookApi.saveBook(bookById);
 
-        return ResponseEntity.ok(mapBookToDTO(bookById, StatusDTO.success()));
+        return ResponseEntity.ok(mapBookToDTO(bookById, StatusDTO.success(), null));
     }
 
-    // HELPER METHODS
-    private Book mapDtoToBook(BookDTO dto){
-        Book b = new Book();
-        b.setIbn(dto.getIbn());
-        b.setTitle(dto.getTitle());
-        b.setBookId(dto.getId());
-        return b;
+    @GetMapping("/author/{authorId}")
+    public List<BookDTO> getBooksByAuthor(@PathVariable Long authorId){
+        List<BookDTO> books = new ArrayList<>();
+        List<BookAuthor> bookAuthor = bookAuthorApi.findByAuthorId(authorId);
+        bookAuthor.forEach(ba -> {
+            books.add(mapBookToDTO(ba.getBook(), StatusDTO.success(), null));
+        });
+        return books;
     }
 
-    private BookDTO mapBookToDTO(Book book, StatusDTO status) {
-        return new BookDTO.Builder(book.getIbn())
-            .setTitle(book.getTitle())
-            .setId(book.getBookId())
-            .setStatus(status)
-            .build();
+    @PostMapping(value ="/addAuthorToBook", consumes = JSON_CONSUME, produces = JSON_PRODUCE)
+    public ResponseEntity<BookDTO> addAuthorToBook(@RequestBody BookAuthorDTO bookAuthorDTO){
+        Long bookId = bookAuthorDTO.getBookId();
+        Long authorId = bookAuthorDTO.getAuthorId();
+
+        Book book = bookApi.findBookById(bookId);
+        ResponseEntity<BookDTO> dto1 = isEntityNull(bookId, book, Book.class.getSimpleName());
+        if (dto1 != null) return dto1;
+
+        Author author = authorApi.findAuthorById(authorId);
+        ResponseEntity<BookDTO> dto = isEntityNull(authorId, author, Author.class.getSimpleName());
+        if (dto != null) return dto;
+
+        BookAuthor ba = bookAuthorApi.findByBookIdAuthorId(bookId, authorId);
+        if(ba != null){
+            BookDTO dto2 = new BookDTO();
+            dto2.setStatus(StatusDTO.badRequest(String.format("Author with ID '%s' is added earlier to book with ID '%s'.",
+                    authorId, bookId)));
+            return ResponseEntity.ok(dto2);
+        }
+
+        BookAuthor bookAuthor = new BookAuthor();
+        bookAuthor.setBook(book);
+        bookAuthor.setAuthor(author);
+
+        bookAuthorApi.saveBookAuthor(bookAuthor);
+        List<BookAuthor> authors = bookAuthorApi.findByBookId(bookId);
+        BookDTO bookDTO = mapBookToDTO(book, StatusDTO.success(), authors);
+
+        return ResponseEntity.ok(bookDTO);
+    }
+
+    @DeleteMapping(value = "/deleteAuthorFromBook", consumes = JSON_CONSUME, produces = JSON_PRODUCE)
+    public ResponseEntity<BookDTO> deleteAuthorFromBook(@RequestBody BookAuthorDTO bookAuthorDTO){
+        Long bookId = bookAuthorDTO.getBookId();
+        Long authorId = bookAuthorDTO.getAuthorId();
+
+        BookAuthor ba = bookAuthorApi.findByBookIdAuthorId(bookId, authorId);
+        ResponseEntity<BookDTO> response = isEntityNull(null, ba, BookAuthor.class.getSimpleName());
+        if(response != null) return response;
+
+        //TODO: book needs to have one author
+
+        bookAuthorApi.deleteBookAuthor(ba);
+
+        Book book = bookApi.findBookById(bookId);
+        ResponseEntity<BookDTO> dto1 = isEntityNull(bookId, book, Book.class.getSimpleName());
+        if (dto1 != null) return dto1;
+
+        List<BookAuthor> authors = bookAuthorApi.findByBookId(bookId);
+        BookDTO bookDTO = mapBookToDTO(book, StatusDTO.success(), authors);
+
+        return ResponseEntity.ok(bookDTO);
+    }
+
+    @DeleteMapping(consumes = JSON_CONSUME, produces = JSON_PRODUCE)
+    public ResponseEntity<BookDTO> deleteBook(@RequestBody BookDTO bookDTO){
+        Book book = bookApi.findBookById(bookDTO.getId());
+        ResponseEntity<BookDTO> response = isEntityNull(bookDTO.getId(), book, Book.class.getSimpleName());
+        if(response != null) return response;
+
+        List<BookAuthor> ba = bookAuthorApi.findByBookId(bookDTO.getId());
+        if(!ba.isEmpty()){
+            bookAuthorApi.deleteBookAuthors(ba);
+        }
+
+        bookApi.deleteBook(book);
+
+        bookDTO.setStatus(StatusDTO.success(String.format("Deleted")));
+        return ResponseEntity.ok(bookDTO);
+    }
+
+    private <T> ResponseEntity<BookDTO> isEntityNull(Long id, T entity, String entityName) {
+        if (entity == null) {
+            BookDTO dto = new BookDTO();
+            String message = id == null ? String.format("%s with provided ids doesn't exist.", entityName) :
+                    String.format("%s with id '%s' doesn't exist.", entityName, id);
+            dto.setStatus(StatusDTO.badRequest(message));
+            return ResponseEntity.badRequest().body(dto);
+        }
+        return null;
     }
 
 }
