@@ -6,15 +6,22 @@ import com.jumales.library.api.book2author.IBookAuthorApi;
 import com.jumales.library.entities.Author;
 import com.jumales.library.entities.Book;
 import com.jumales.library.entities.BookAuthor;
+import com.jumales.library.entities.User;
+import com.jumales.library.repository.IUserRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.UnsatisfiedServletRequestParameterException;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Setup development database
@@ -33,6 +40,12 @@ public class DatabaseInitialization {
 
     @Autowired
     private IBookAuthorApi bookAuthorApi;
+
+    @Autowired
+    private IUserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @EventListener(ApplicationReadyEvent.class)
     public void initDevData() {
@@ -92,5 +105,27 @@ public class DatabaseInitialization {
         logger.info("Created: {}", ba2);
 
         logger.info(bookAuthorApi.findById(ba2.getBookAuthorId()));
+
+        addUsers();
+    }
+
+    private void addUsers(){
+
+        this.userRepository.save(User.builder()
+                .username("user")
+                .password(this.passwordEncoder.encode("password"))
+                .roles(Arrays.asList("ROLE_USER"))
+                .build()
+        );
+
+        this.userRepository.save(User.builder()
+                .username("admin")
+                .password(this.passwordEncoder.encode("password"))
+                .roles(Arrays.asList("ROLE_USER", "ROLE_ADMIN"))
+                .build()
+        );
+
+        logger.debug("printing all users...");
+        this.userRepository.findAll().forEach(v -> logger.debug(String.format("%s", v)));
     }
 }

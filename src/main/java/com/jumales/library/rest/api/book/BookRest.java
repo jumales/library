@@ -21,7 +21,6 @@ import java.util.List;
 @RestController
 @RequestMapping("${rest.root.url}" + "/books")
 public class BookRest implements IRestCommon {
-    //TODO: listen https://www.youtube.com/watch?v=996OiexHze0
     @Autowired
     protected IBookApi bookApi;
     @Autowired
