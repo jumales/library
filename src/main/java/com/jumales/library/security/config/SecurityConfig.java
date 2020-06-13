@@ -50,8 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, api + "/authors/**").permitAll()
                 .antMatchers(HttpMethod.POST, api + "/books/**").permitAll()
                 .antMatchers(HttpMethod.POST, api + "/authors/**").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/books/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/authors/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, api + "/books/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, api + "/authors/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtSecurityConfigurer(jwtTokenProvider));
