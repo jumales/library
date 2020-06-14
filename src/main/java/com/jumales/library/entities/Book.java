@@ -27,4 +27,8 @@ public class Book{
     @Setter(AccessLevel.NONE)
     @Embedded
     private Audit audit = new Audit();
+
+    public void delete(){
+        this.audit.setDeleted(true);
+    }
 }

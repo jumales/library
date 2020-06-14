@@ -1,8 +1,6 @@
 package com.jumales.library.api.book2author;
 
 import com.jumales.library.api.IApiCommon;
-import com.jumales.library.entities.Author;
-import com.jumales.library.entities.Book;
 import com.jumales.library.entities.BookAuthor;
 import com.jumales.library.repository.IBookAuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +43,7 @@ public class BookAuthorApi implements IBookAuthorApi, IApiCommon {
      */
     @Override
     public List<BookAuthor> findByBookId(final Long bookId){
-        return bookAuthorRepository.findByBookId(bookId);
+        return bookAuthorRepository.findByBookIdAndAuditDeleted(bookId, false);
     }
 
     /**
@@ -55,7 +53,7 @@ public class BookAuthorApi implements IBookAuthorApi, IApiCommon {
      */
     @Override
     public List<BookAuthor> findByAuthorId(final Long authorId){
-        return bookAuthorRepository.findByAuthorId(authorId);
+        return bookAuthorRepository.findByAuthorIdAndAuditDeleted(authorId, false);
     }
 
     /**
@@ -66,17 +64,21 @@ public class BookAuthorApi implements IBookAuthorApi, IApiCommon {
      */
     @Override
     public BookAuthor findByBookIdAuthorId(Long bookId, Long authorId) {
-        return bookAuthorRepository.findByBookIdAndAuthorId(bookId, authorId);
+        return bookAuthorRepository.findByBookIdAndAuthorIdAndAuditDeleted(bookId, authorId, false);
     }
 
     @Override
     public void deleteBookAuthors(Iterable<BookAuthor> bas){
-        bookAuthorRepository.deleteAll(bas);
+        bas.forEach(bookAuthor -> {
+            bookAuthor.delete();
+            saveBookAuthor(bookAuthor);
+        });
     }
 
     @Override
     public void deleteBookAuthor(BookAuthor bookAuthor){
-        bookAuthorRepository.delete(bookAuthor);
+        bookAuthor.delete();
+        saveBookAuthor(bookAuthor);
     }
 
 }

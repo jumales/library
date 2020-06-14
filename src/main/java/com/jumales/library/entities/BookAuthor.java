@@ -26,4 +26,8 @@ public class BookAuthor{
     @Embedded
     protected Audit audit = new Audit();
 
+    public void delete(){
+        this.audit.setDeleted(true);
+    }
+
 }

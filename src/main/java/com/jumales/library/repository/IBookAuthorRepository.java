@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface IBookAuthorRepository extends JpaRepository<BookAuthor, Long> {
-    List<BookAuthor> findByBookId(Long bookId);
+    List<BookAuthor> findByBookIdAndAuditDeleted(Long bookId, boolean deleted);
 
-    List<BookAuthor> findByAuthorId(Long authorId);
+    List<BookAuthor> findByAuthorIdAndAuditDeleted(Long authorId, boolean deleted);
 
-    BookAuthor findByBookIdAndAuthorId(Long bookId, Long authorId);
+    BookAuthor findByBookIdAndAuthorIdAndAuditDeleted(Long bookId, Long authorId, boolean deleted);
 }
