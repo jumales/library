@@ -36,7 +36,7 @@ public class AuthorApi implements IAuthorApi, IApiCommon {
      */
     @Override
     public Author findAuthorById(Long id){
-        Optional<Author> author = authorRepository.findById(id);
+        Optional<Author> author = authorRepository.findByIdAndAuditDeleted(id, false);
         return validateIfEntityFound(Author.class .getSimpleName(), "id", id, author);
     }
 
@@ -48,7 +48,7 @@ public class AuthorApi implements IAuthorApi, IApiCommon {
      */
     @Override
     public Author findAuthorByOib(String oib){
-        Optional<Author> author = authorRepository.findByOib(oib);
+        Optional<Author> author = authorRepository.findByOibAndAuditDeleted(oib, false);
         return validateIfEntityFound(Author.class .getSimpleName(), "oib", oib, author);
     }
 
@@ -58,7 +58,7 @@ public class AuthorApi implements IAuthorApi, IApiCommon {
      */
     @Override
     public List<Author> findAll(){
-        return authorRepository.findAll();
+        return authorRepository.findByAuditDeleted(false);
     }
 
     /**
@@ -83,6 +83,7 @@ public class AuthorApi implements IAuthorApi, IApiCommon {
 
     @Override
     public void deleteAuthor(Author author){
-        authorRepository.delete(author);
+        author.delete();
+        saveAuthor(author);
     }
 }

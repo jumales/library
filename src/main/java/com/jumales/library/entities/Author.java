@@ -33,4 +33,8 @@ public class Author{
     @Setter(AccessLevel.NONE)
     @Embedded
     private Audit audit = new Audit();
+
+    public void delete(){
+        this.audit.setDeleted(true);
+    }
 }
