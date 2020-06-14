@@ -26,7 +26,7 @@ public class BookRepositoryTest extends BaseTest {
 
         bookRepository.save(b);
 
-        Optional<Book> bookByIbn = bookRepository.findByIbn(BOOK_IBN);
+        Optional<Book> bookByIbn = bookRepository.findByIbnAndAuditDeleted(BOOK_IBN, false);
         if(!bookByIbn.isPresent()){
             Assert.fail(String.format("Test with IBN '%s' not found", BOOK_IBN));
         }

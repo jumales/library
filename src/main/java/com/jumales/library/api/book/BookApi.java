@@ -26,24 +26,25 @@ public class BookApi implements IBookApi, IApiCommon {
 
     @Override
     public Book findBookById(Long id){
-        Optional<Book> book = bookRepository.findById(id);
+        Optional<Book> book = bookRepository.findByIdAndAuditDeleted(id, false);
         return validateIfEntityFound(Book.class .getSimpleName(), "id", id, book);
     }
 
     @Override
     public Book findBookByIbn(String ibn){
-        Optional<Book> book = bookRepository.findByIbn(ibn);
+        Optional<Book> book = bookRepository.findByIbnAndAuditDeleted(ibn, false);
         return validateIfEntityFound(Book.class .getSimpleName(), "ibn", ibn, book);
     }
 
     @Override
     public List<Book> findAll(){
-        return bookRepository.findAll();
+        return bookRepository.findByAuditDeleted(false);
     }
 
     @Override
     public void deleteBook(Book book){
-        bookRepository.delete(book);
+        book.delete();
+        saveBook(book);
     }
 
     /**
