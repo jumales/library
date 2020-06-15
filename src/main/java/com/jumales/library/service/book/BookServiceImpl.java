@@ -1,6 +1,6 @@
-package com.jumales.library.api.book;
+package com.jumales.library.service.book;
 
-import com.jumales.library.api.IApiCommon;
+import com.jumales.library.service.ServiceCommon;
 import com.jumales.library.entities.Book;
 import com.jumales.library.repository.IBookRepository;
 import org.apache.logging.log4j.LogManager;
@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class BookApi implements IBookApi, IApiCommon {
-    public static final Logger logger = LogManager.getLogger(BookApi.class);
+public class BookServiceImpl implements BookService, ServiceCommon {
+    public static final Logger logger = LogManager.getLogger(BookServiceImpl.class);
 
     @Autowired
     protected IBookRepository bookRepository;

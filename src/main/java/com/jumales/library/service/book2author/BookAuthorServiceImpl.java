@@ -1,6 +1,6 @@
-package com.jumales.library.api.book2author;
+package com.jumales.library.service.book2author;
 
-import com.jumales.library.api.IApiCommon;
+import com.jumales.library.service.ServiceCommon;
 import com.jumales.library.entities.BookAuthor;
 import com.jumales.library.repository.IBookAuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class BookAuthorApi implements IBookAuthorApi, IApiCommon {
+public class BookAuthorServiceImpl implements BookAuthorService, ServiceCommon {
 
     @Autowired
     protected IBookAuthorRepository bookAuthorRepository;

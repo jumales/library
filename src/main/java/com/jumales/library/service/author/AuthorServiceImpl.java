@@ -1,6 +1,6 @@
-package com.jumales.library.api.author;
+package com.jumales.library.service.author;
 
-import com.jumales.library.api.IApiCommon;
+import com.jumales.library.service.ServiceCommon;
 import com.jumales.library.entities.Author;
 import com.jumales.library.repository.IAuthorRepository;
 import org.apache.logging.log4j.LogManager;
@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class AuthorApi implements IAuthorApi, IApiCommon {
-    public static final Logger logger = LogManager.getLogger(AuthorApi.class);
+public class AuthorServiceImpl implements AuthorService, ServiceCommon {
+    public static final Logger logger = LogManager.getLogger(AuthorServiceImpl.class);
 
     @Autowired
     protected IAuthorRepository authorRepository;

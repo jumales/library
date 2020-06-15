@@ -1,11 +1,11 @@
-package com.jumales.library.api.book;
+package com.jumales.library.service.book;
 
 import com.jumales.library.BaseTest;
 import com.jumales.library.entities.Book;
+import com.jumales.library.service.book.BookService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -14,10 +14,10 @@ import static org.mockito.BDDMockito.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class BookApiTest extends BaseTest {
+public class BookServiceImplTest extends BaseTest {
 
     @MockBean
-    protected IBookApi bookApi;
+    protected BookService bookApi;
 
     @Test
     public void saveBookTest(){

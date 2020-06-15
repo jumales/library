@@ -1,10 +1,10 @@
 package com.jumales.library.rest.api.book;
 
-import com.jumales.library.api.author.IAuthorApi;
-import com.jumales.library.api.book2author.IBookAuthorApi;
+import com.jumales.library.service.author.AuthorService;
+import com.jumales.library.service.book2author.BookAuthorService;
 import com.jumales.library.entities.Author;
 import com.jumales.library.entities.Book;
-import com.jumales.library.api.book.IBookApi;
+import com.jumales.library.service.book.BookService;
 import com.jumales.library.entities.BookAuthor;
 import com.jumales.library.rest.api.IRestCommon;
 import com.jumales.library.rest.api.book.dto.BookDTO;
@@ -21,11 +21,11 @@ import java.util.List;
 @RequestMapping("${rest.root.url}" + "/books")
 public class BookRest implements IRestCommon {
     @Autowired
-    protected IBookApi bookApi;
+    protected BookService bookApi;
     @Autowired
-    protected IBookAuthorApi bookAuthorApi;
+    protected BookAuthorService bookAuthorApi;
     @Autowired
-    protected IAuthorApi authorApi;
+    protected AuthorService authorApi;
 
     @GetMapping
     public List<BookDTO> getAllBooks(){

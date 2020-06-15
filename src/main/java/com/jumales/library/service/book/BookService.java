@@ -1,10 +1,10 @@
-package com.jumales.library.api.book;
+package com.jumales.library.service.book;
 
 import com.jumales.library.entities.Book;
 
 import java.util.List;
 
-public interface IBookApi {
+public interface BookService {
     Book saveBook(Book book);
 
     Book findBookById(Long id);

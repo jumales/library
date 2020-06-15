@@ -1,10 +1,10 @@
-package com.jumales.library.api.book2author;
+package com.jumales.library.service.book2author;
 
 import com.jumales.library.entities.BookAuthor;
 
 import java.util.List;
 
-public interface IBookAuthorApi {
+public interface BookAuthorService {
     BookAuthor saveBookAuthor(BookAuthor bookAuthor);
 
     BookAuthor findById(Long id);

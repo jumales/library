@@ -1,17 +1,15 @@
-package com.jumales.library.api;
+package com.jumales.library.service;
 
-import com.jumales.library.api.author.AuthorApi;
-import com.jumales.library.entities.Author;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 
 /**
- * Contains common things for api classes
+ * Contains common things for service classes
  */
-public interface IApiCommon {
-    static final Logger logger = LogManager.getLogger(IApiCommon.class);
+public interface ServiceCommon {
+    static final Logger logger = LogManager.getLogger(ServiceCommon.class);
 
     /**
      *

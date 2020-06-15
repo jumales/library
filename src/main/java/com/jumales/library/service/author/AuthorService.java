@@ -1,10 +1,10 @@
-package com.jumales.library.api.author;
+package com.jumales.library.service.author;
 
 import com.jumales.library.entities.Author;
 
 import java.util.List;
 
-public interface IAuthorApi {
+public interface AuthorService {
     Author saveAuthor(Author author);
 
     Author findAuthorById(Long id);

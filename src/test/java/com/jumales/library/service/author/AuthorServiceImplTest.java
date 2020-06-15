@@ -1,7 +1,8 @@
-package com.jumales.library.api.author;
+package com.jumales.library.service.author;
 
 import com.jumales.library.BaseTest;
 import com.jumales.library.entities.Author;
+import com.jumales.library.service.author.AuthorService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,10 +13,10 @@ import static org.mockito.BDDMockito.given;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class AuthorApiTest extends BaseTest {
+public class AuthorServiceImplTest extends BaseTest {
 
     @MockBean
-    protected  IAuthorApi authorApi;
+    protected AuthorService authorApi;
 
     @Test
     public void saveAuthorTest(){

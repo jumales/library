@@ -1,7 +1,7 @@
 package com.jumales.library.rest.api.author;
 
-import com.jumales.library.api.author.IAuthorApi;
-import com.jumales.library.api.book2author.IBookAuthorApi;
+import com.jumales.library.service.author.AuthorService;
+import com.jumales.library.service.book2author.BookAuthorService;
 import com.jumales.library.entities.Author;
 import com.jumales.library.entities.BookAuthor;
 import com.jumales.library.rest.api.IRestCommon;
@@ -19,9 +19,9 @@ import java.util.List;
 public class AuthorRest implements IRestCommon {
 
     @Autowired
-    protected IAuthorApi authorApi;
+    protected AuthorService authorApi;
     @Autowired
-    protected IBookAuthorApi bookAuthorApi;
+    protected BookAuthorService bookAuthorApi;
 
     @GetMapping
     public List<AuthorDTO> getAllAuthors(){

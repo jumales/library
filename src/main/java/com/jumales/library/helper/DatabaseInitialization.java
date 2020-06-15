@@ -1,8 +1,8 @@
 package com.jumales.library.helper;
 
-import com.jumales.library.api.author.IAuthorApi;
-import com.jumales.library.api.book.IBookApi;
-import com.jumales.library.api.book2author.IBookAuthorApi;
+import com.jumales.library.service.author.AuthorService;
+import com.jumales.library.service.book.BookService;
+import com.jumales.library.service.book2author.BookAuthorService;
 import com.jumales.library.entities.Author;
 import com.jumales.library.entities.Book;
 import com.jumales.library.entities.BookAuthor;
@@ -16,12 +16,9 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.UnsatisfiedServletRequestParameterException;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
 
 /**
  * Setup development database
@@ -33,13 +30,13 @@ public class DatabaseInitialization {
     private static final Logger logger = LogManager.getLogger(DatabaseInitialization.class);
 
     @Autowired
-    private IBookApi bookApi;
+    private BookService bookApi;
 
     @Autowired
-    private IAuthorApi authorApi;
+    private AuthorService authorApi;
 
     @Autowired
-    private IBookAuthorApi bookAuthorApi;
+    private BookAuthorService bookAuthorApi;
 
     @Autowired
     private IUserRepository userRepository;
