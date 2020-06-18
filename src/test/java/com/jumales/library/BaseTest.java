@@ -22,7 +22,7 @@ public abstract class BaseTest {
     public static final String BOOK_IBN = "1234";
 
     public static final String AUTHOR_FIRST_NAME = "JURE";
-    public static final String AUTHOR_SECOND_NAME = "MALEŠ";
+    public static final String AUTHOR_LAST_NAME = "MALEŠ";
     public static final String AUTHOR_OIB = "HR01234567890";
 
 
@@ -38,10 +38,10 @@ public abstract class BaseTest {
         }
     }
 
-    protected Date getDate(int year, int month, int day){
+    protected Calendar getDate(int year, int month, int day){
         Calendar cal = Calendar.getInstance();
         cal.set(year, month, day);
-        return cal.getTime();
+        return cal;
     }
 
     @PostConstruct

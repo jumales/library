@@ -40,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .httpBasic().disable()
                 .csrf().disable()
+                .cors().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
@@ -47,12 +48,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/signin").permitAll()
                 .antMatchers(HttpMethod.GET, api + "/books/**").permitAll()
                 .antMatchers(HttpMethod.GET, api + "/authors/**").permitAll()
-                .antMatchers(HttpMethod.PUT, api + "/books/**").hasAnyRole("ADMiN", "USER")
+                .antMatchers(HttpMethod.PUT, api + "/books/**").permitAll()
+                .antMatchers(HttpMethod.PUT, api + "/authors/**").permitAll()
+                .antMatchers(HttpMethod.POST, api + "/books/**").permitAll()
+                .antMatchers(HttpMethod.POST, api + "/authors/**").permitAll()
+                .antMatchers(HttpMethod.DELETE, api + "/books/**").permitAll()
+                .antMatchers(HttpMethod.DELETE, api + "/authors/**").permitAll()
+                /*.antMatchers(HttpMethod.PUT, api + "/books/**").hasAnyRole("ADMiN", "USER")
                 .antMatchers(HttpMethod.PUT, api + "/authors/**").hasAnyRole("ADMiN", "USER")
                 .antMatchers(HttpMethod.POST, api + "/books/**").hasAnyRole("ADMiN", "USER")
                 .antMatchers(HttpMethod.POST, api + "/authors/**").hasAnyRole("ADMiN", "USER")
                 .antMatchers(HttpMethod.DELETE, api + "/books/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, api + "/authors/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, api + "/authors/**").hasRole("ADMIN")*/
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtSecurityConfigurer(jwtTokenProvider));

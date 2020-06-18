@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("${rest.root.url}" + "/books")
 public class BookRest implements IRestCommon {
     @Autowired
@@ -34,7 +33,8 @@ public class BookRest implements IRestCommon {
         List<Book> books = bookApi.findAll();
         books.forEach(b ->
         {
-            BookDTO dto = mapBookToDTO(b, StatusDTO.success(), null);
+            List<BookAuthor> authors = bookAuthorApi.findByBookId(b.getId());
+            BookDTO dto = mapBookToDTO(b, StatusDTO.success(), authors);
             dtos.add(dto);
         });
         return dtos;

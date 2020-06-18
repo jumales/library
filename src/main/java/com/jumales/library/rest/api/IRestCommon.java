@@ -37,7 +37,7 @@ public interface IRestCommon {
 
     default Author mapDtoToAuthor(AuthorDTO dto){
         Author a = new Author();
-        a.setSecondName(dto.getSecondName());
+        a.setLastName(dto.getLastName());
         a.setOib(dto.getOib());
         a.setActive(dto.isActive());
         a.setFirstName(dto.getFirstName());
@@ -50,7 +50,7 @@ public interface IRestCommon {
                 .setActive(author.getActive())
                 .setDayOfBirth(author.getDayOfBirth())
                 .setFirstName(author.getFirstName())
-                .setSecondName(author.getSecondName())
+                .setLastName(author.getLastName())
                 .setId(author.getId())
                 .setStatus(status);
 

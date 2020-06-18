@@ -3,6 +3,7 @@ package com.jumales.library.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,11 +20,11 @@ public class Author{
     @Column(nullable = false, name = "first_name")
     private String firstName;
 
-    @Column(nullable = false, name = "second_name")
-    private String secondName;
+    @Column(nullable = false, name = "lastName")
+    private String lastName;
 
     @Column(nullable = false, name = "day_of_birth")
-    private Date dayOfBirth;
+    private Calendar dayOfBirth;
 
     @Column(nullable = false, name = "oib", unique = true)
     private String oib;

@@ -8,13 +8,13 @@ import com.jumales.library.rest.api.IRestCommon;
 import com.jumales.library.rest.api.author.dto.AuthorDTO;
 import com.jumales.library.rest.api.dto.StatusDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("${rest.root.url}" + "/authors")
 public class AuthorRest implements IRestCommon {
@@ -24,13 +24,16 @@ public class AuthorRest implements IRestCommon {
     @Autowired
     protected BookAuthorService bookAuthorApi;
 
+    private final String clientUrl ="http://localhost:3000";
+
     @GetMapping
     public List<AuthorDTO> getAllAuthors(){
         List<AuthorDTO> dtos = new ArrayList<>();
         List<Author> authors = authorApi.findAll();
         authors.forEach(a ->
         {
-            AuthorDTO dto = mapAuthorToDTO(a, StatusDTO.success(), null);
+            List<BookAuthor> books = bookAuthorApi.findByAuthorId(a.getId());
+            AuthorDTO dto = mapAuthorToDTO(a, StatusDTO.success(), books);
             dtos.add(dto);
         });
         return dtos;
@@ -92,7 +95,7 @@ public class AuthorRest implements IRestCommon {
         author.setFirstName(authorDTO.getFirstName());
         author.setActive(authorDTO.isActive());
         author.setOib(authorDTO.getOib());
-        author.setSecondName(authorDTO.getSecondName());
+        author.setLastName(authorDTO.getLastName());
 
         authorApi.saveAuthor(author);
 

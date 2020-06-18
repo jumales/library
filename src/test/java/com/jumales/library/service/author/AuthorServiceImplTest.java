@@ -2,7 +2,6 @@ package com.jumales.library.service.author;
 
 import com.jumales.library.BaseTest;
 import com.jumales.library.entities.Author;
-import com.jumales.library.service.author.AuthorService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,7 +23,7 @@ public class AuthorServiceImplTest extends BaseTest {
         a.setActive(true);
         a.setDayOfBirth(getDate(1987, 11, 23));
         a.setFirstName(AUTHOR_FIRST_NAME);
-        a.setSecondName(AUTHOR_SECOND_NAME);
+        a.setLastName(AUTHOR_LAST_NAME);
         a.setOib(AUTHOR_OIB);
 
         given(this.authorApi.saveAuthor(a)).willReturn(a);
@@ -37,7 +36,7 @@ public class AuthorServiceImplTest extends BaseTest {
         a.setActive(true);
         a.setDayOfBirth(getDate(1987, 11, 23));
         a.setFirstName(AUTHOR_FIRST_NAME);
-        a.setSecondName(AUTHOR_SECOND_NAME);
+        a.setLastName(AUTHOR_LAST_NAME);
         a.setOib(AUTHOR_OIB);
 
         given(this.authorApi.saveAuthor(a)).willReturn(null);

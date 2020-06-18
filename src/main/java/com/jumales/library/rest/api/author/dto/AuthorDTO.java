@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -18,11 +19,11 @@ public class AuthorDTO {
     @Setter(AccessLevel.NONE)
     private String firstName;
     @Setter(AccessLevel.NONE)
-    private String secondName;
+    private String lastName;
     @Setter(AccessLevel.NONE)
     private String fullName;
     @Setter(AccessLevel.NONE)
-    private Date dayOfBirth;
+    private Calendar dayOfBirth;
     @Setter(AccessLevel.NONE)
     private String oib;
     @Setter(AccessLevel.NONE)
@@ -38,24 +39,24 @@ public class AuthorDTO {
      * @return
      */
     public static String validateAuthor(AuthorDTO author, boolean controlId){
-        if(author.getOib() == null || author.getOib().isEmpty()) return "Author can't be empty";
+        if(author.getOib() == null || author.getOib().isEmpty()) return "Author OIB can't be empty";
         if(author.getFirstName() == null || author.getFirstName().isEmpty()) return "First name can't be empty";
-        if(author.getSecondName() == null || author.getSecondName().isEmpty()) return "Second name can't be empty";
+        if(author.getLastName() == null || author.getLastName().isEmpty()) return "Second name can't be empty";
         if(author.getDayOfBirth() == null) return "Day of birth can't be empty";
         if(controlId) if(author.getId() == null) return "Id can't be null";
         return null;
     }
 
     public String getFullName(){
-        return String.format("%s %s", firstName, secondName);
+        return String.format("%s %s", firstName, lastName);
     }
 
     public static class Builder{
 
         private Long id;
         private String firstName;
-        private String secondName;
-        private Date dayOfBirth;
+        private String lastName;
+        private Calendar dayOfBirth;
         private String oib;
         private boolean active;
         private StatusDTO status;
@@ -75,12 +76,12 @@ public class AuthorDTO {
             return this;
         }
 
-        public  Builder setSecondName(final String secondName){
-            this.secondName = secondName;
+        public  Builder setLastName(final String lastName){
+            this.lastName = lastName;
             return this;
         }
 
-        public  Builder setDayOfBirth(final Date dayOfBirth){
+        public  Builder setDayOfBirth(final Calendar dayOfBirth){
             this.dayOfBirth = dayOfBirth;
             return this;
         }
@@ -104,7 +105,7 @@ public class AuthorDTO {
             AuthorDTO dto = new AuthorDTO();
             dto.id = this.id;
             dto.firstName = this.firstName;
-            dto.secondName = this.secondName;
+            dto.lastName = this.lastName;
             dto.dayOfBirth = this.dayOfBirth;
             dto.oib = this.oib;
             dto.active = this.active;
