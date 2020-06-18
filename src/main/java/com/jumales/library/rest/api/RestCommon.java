@@ -9,7 +9,7 @@ import com.jumales.library.rest.api.dto.StatusDTO;
 
 import java.util.List;
 
-public interface IRestCommon {
+public interface RestCommon {
     public static final String JSON_CONSUME = "application/json";
     public static final String JSON_PRODUCE = "application/json";
 

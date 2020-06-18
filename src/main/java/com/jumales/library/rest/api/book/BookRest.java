@@ -6,7 +6,7 @@ import com.jumales.library.entities.Author;
 import com.jumales.library.entities.Book;
 import com.jumales.library.service.book.BookService;
 import com.jumales.library.entities.BookAuthor;
-import com.jumales.library.rest.api.IRestCommon;
+import com.jumales.library.rest.api.RestCommon;
 import com.jumales.library.rest.api.book.dto.BookDTO;
 import com.jumales.library.rest.api.book2Author.dto.BookAuthorDTO;
 import com.jumales.library.rest.api.dto.StatusDTO;
@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("${rest.root.url}" + "/books")
-public class BookRest implements IRestCommon {
+public class BookRest implements RestCommon {
     @Autowired
     protected BookService bookApi;
     @Autowired
