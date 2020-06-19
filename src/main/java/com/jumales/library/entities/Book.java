@@ -21,7 +21,7 @@ public class Book{
 
     private String title;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String ibn;
 
     @Setter(AccessLevel.NONE)

@@ -27,6 +27,9 @@ public class LibraryApplication {
 				registry.addMapping("/api/v1/authors/**")
 						.allowedOrigins("http://localhost:3000")
 						.allowedMethods("POST", "PUT", "GET", "DELETE");
+				registry.addMapping("/api/v1/auth/**")
+						.allowedOrigins("http://localhost:3000")
+						.allowedMethods("POST", "GET");
 			}
 		};
 	}

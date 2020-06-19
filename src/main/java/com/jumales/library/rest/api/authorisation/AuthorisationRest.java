@@ -17,9 +17,8 @@ import java.util.Map;
 
 import static org.springframework.http.ResponseEntity.ok;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("${rest.root.url}" +"/auth")
 public class AuthorisationRest {
     @Autowired
     AuthenticationManager authenticationManager;

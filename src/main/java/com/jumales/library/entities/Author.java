@@ -3,10 +3,7 @@ package com.jumales.library.entities;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Data
@@ -26,7 +23,7 @@ public class Author{
     @Column(nullable = false, name = "day_of_birth")
     private Calendar dayOfBirth;
 
-    @Column(nullable = false, name = "oib", unique = true)
+    @Column(nullable = false, name = "oib")
     private String oib;
 
     private Boolean active;
