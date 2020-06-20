@@ -1,21 +1,18 @@
 package com.jumales.library.rest.api.author;
 
-import com.jumales.library.entities.Book;
-import com.jumales.library.service.author.AuthorService;
-import com.jumales.library.service.book.BookService;
-import com.jumales.library.service.book2author.BookAuthorService;
 import com.jumales.library.entities.Author;
 import com.jumales.library.entities.BookAuthor;
 import com.jumales.library.rest.api.RestCommon;
 import com.jumales.library.rest.api.author.dto.AuthorDTO;
 import com.jumales.library.rest.api.dto.StatusDTO;
+import com.jumales.library.service.author.AuthorService;
+import com.jumales.library.service.book2author.BookAuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("${rest.root.url}" + "/authors")
@@ -25,10 +22,6 @@ public class AuthorRest implements RestCommon {
     protected AuthorService authorService;
     @Autowired
     protected BookAuthorService bookAuthorService;
-    @Autowired
-    protected BookService bookService;
-
-    private final String clientUrl ="http://localhost:3000";
 
     @GetMapping
     public List<AuthorDTO> getAllAuthors(){

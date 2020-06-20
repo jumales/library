@@ -21,19 +21,19 @@ import java.util.List;
 @RequestMapping("${rest.root.url}" + "/books")
 public class BookRest implements RestCommon {
     @Autowired
-    protected BookService bookApi;
+    protected BookService bookService;
     @Autowired
-    protected BookAuthorService bookAuthorApi;
+    protected BookAuthorService bookAuthorService;
     @Autowired
-    protected AuthorService authorApi;
+    protected AuthorService authorService;
 
     @GetMapping
     public List<BookDTO> getAllBooks(){
         List<BookDTO> dtos = new ArrayList<>();
-        List<Book> books = bookApi.findAll();
+        List<Book> books = bookService.findAll();
         books.forEach(b ->
         {
-            List<BookAuthor> authors = bookAuthorApi.findByBookId(b.getId());
+            List<BookAuthor> authors = bookAuthorService.findByBookId(b.getId());
             BookDTO dto = mapBookToDTO(b, StatusDTO.success(), authors);
             dtos.add(dto);
         });
@@ -42,11 +42,11 @@ public class BookRest implements RestCommon {
 
     @GetMapping("/{id}")
     public ResponseEntity<BookDTO> getById(@PathVariable(value = "id", required = true) Long id) {
-        Book book = bookApi.findBookById(id);
+        Book book = bookService.findBookById(id);
         ResponseEntity<BookDTO> dto1 = isEntityNull(id, book, Book.class.getSimpleName());
         if (dto1 != null) return dto1;
 
-        List<BookAuthor> authors = bookAuthorApi.findByBookId(id);
+        List<BookAuthor> authors = bookAuthorService.findByBookId(id);
 
         return ResponseEntity.ok(mapBookToDTO(book, StatusDTO.success(), authors));
     }
@@ -64,13 +64,13 @@ public class BookRest implements RestCommon {
             return ResponseEntity.badRequest().body(bookDTO);
         }
 
-        boolean isIbnUnique = bookApi.isIbnUnique(bookDTO.getIbn(), bookDTO.getId());
+        boolean isIbnUnique = bookService.isIbnUnique(bookDTO.getIbn(), bookDTO.getId());
         if(!isIbnUnique){
             bookDTO.setStatus(StatusDTO.badRequest(String.format("Book with IBN '%s' exist!", bookDTO.getIbn())));
             return ResponseEntity.badRequest().body(bookDTO);
         }
 
-        Book createdBook = bookApi.saveBook(mapDtoToBook(bookDTO));
+        Book createdBook = bookService.saveBook(mapDtoToBook(bookDTO));
 
         return ResponseEntity.ok(mapBookToDTO(createdBook, StatusDTO.created(), null));
     }
@@ -83,20 +83,20 @@ public class BookRest implements RestCommon {
             return ResponseEntity.badRequest().body(bookDTO);
         }
 
-        boolean isIbnUnique = bookApi.isIbnUnique(bookDTO.getIbn(), bookDTO.getId());
+        boolean isIbnUnique = bookService.isIbnUnique(bookDTO.getIbn(), bookDTO.getId());
         if(!isIbnUnique){
             bookDTO.setStatus(StatusDTO.badRequest(String.format("Book with IBN '%s' exist!", bookDTO.getIbn())));
             return ResponseEntity.badRequest().body(bookDTO);
         }
 
-        Book bookById = bookApi.findBookById(bookDTO.getId());
+        Book bookById = bookService.findBookById(bookDTO.getId());
         ResponseEntity<BookDTO> dto1 = isEntityNull(bookDTO.getId(), bookById, Book.class.getSimpleName());
         if (dto1 != null) return dto1;
 
         bookById.setTitle(bookDTO.getTitle());
         bookById.setIbn(bookDTO.getIbn());
 
-        bookApi.saveBook(bookById);
+        bookService.saveBook(bookById);
 
         return ResponseEntity.ok(mapBookToDTO(bookById, StatusDTO.success(), null));
     }
@@ -104,7 +104,7 @@ public class BookRest implements RestCommon {
     @GetMapping("/author/{authorId}")
     public List<BookDTO> getBooksByAuthor(@PathVariable Long authorId){
         List<BookDTO> books = new ArrayList<>();
-        List<BookAuthor> bookAuthor = bookAuthorApi.findByAuthorId(authorId);
+        List<BookAuthor> bookAuthor = bookAuthorService.findByAuthorId(authorId);
         bookAuthor.forEach(ba -> {
             books.add(mapBookToDTO(ba.getBook(), StatusDTO.success(), null));
         });
@@ -116,15 +116,15 @@ public class BookRest implements RestCommon {
         Long bookId = bookAuthorDTO.getBookId();
         Long authorId = bookAuthorDTO.getAuthorId();
 
-        Book book = bookApi.findBookById(bookId);
+        Book book = bookService.findBookById(bookId);
         ResponseEntity<BookDTO> dto1 = isEntityNull(bookId, book, Book.class.getSimpleName());
         if (dto1 != null) return dto1;
 
-        Author author = authorApi.findAuthorById(authorId);
+        Author author = authorService.findAuthorById(authorId);
         ResponseEntity<BookDTO> dto = isEntityNull(authorId, author, Author.class.getSimpleName());
         if (dto != null) return dto;
 
-        BookAuthor ba = bookAuthorApi.findByBookIdAuthorId(bookId, authorId);
+        BookAuthor ba = bookAuthorService.findByBookIdAuthorId(bookId, authorId);
         if(ba != null){
             BookDTO dto2 = new BookDTO();
             dto2.setStatus(StatusDTO.badRequest(String.format("Author with ID '%s' is added earlier to book with ID '%s'.",
@@ -136,8 +136,8 @@ public class BookRest implements RestCommon {
         bookAuthor.setBook(book);
         bookAuthor.setAuthor(author);
 
-        bookAuthorApi.saveBookAuthor(bookAuthor);
-        List<BookAuthor> authors = bookAuthorApi.findByBookId(bookId);
+        bookAuthorService.saveBookAuthor(bookAuthor);
+        List<BookAuthor> authors = bookAuthorService.findByBookId(bookId);
         BookDTO bookDTO = mapBookToDTO(book, StatusDTO.success(), authors);
 
         return ResponseEntity.ok(bookDTO);
@@ -148,19 +148,19 @@ public class BookRest implements RestCommon {
         Long bookId = bookAuthorDTO.getBookId();
         Long authorId = bookAuthorDTO.getAuthorId();
 
-        BookAuthor ba = bookAuthorApi.findByBookIdAuthorId(bookId, authorId);
+        BookAuthor ba = bookAuthorService.findByBookIdAuthorId(bookId, authorId);
         ResponseEntity<BookDTO> response = isEntityNull(null, ba, BookAuthor.class.getSimpleName());
         if(response != null) return response;
 
         //TODO: book needs to have one author
 
-        bookAuthorApi.deleteBookAuthor(ba);
+        bookAuthorService.deleteBookAuthor(ba);
 
-        Book book = bookApi.findBookById(bookId);
+        Book book = bookService.findBookById(bookId);
         ResponseEntity<BookDTO> dto1 = isEntityNull(bookId, book, Book.class.getSimpleName());
         if (dto1 != null) return dto1;
 
-        List<BookAuthor> authors = bookAuthorApi.findByBookId(bookId);
+        List<BookAuthor> authors = bookAuthorService.findByBookId(bookId);
         BookDTO bookDTO = mapBookToDTO(book, StatusDTO.success(), authors);
 
         return ResponseEntity.ok(bookDTO);
@@ -168,16 +168,16 @@ public class BookRest implements RestCommon {
 
     @DeleteMapping(consumes = JSON_CONSUME, produces = JSON_PRODUCE)
     public ResponseEntity<BookDTO> deleteBook(@RequestBody BookDTO bookDTO){
-        Book book = bookApi.findBookById(bookDTO.getId());
+        Book book = bookService.findBookById(bookDTO.getId());
         ResponseEntity<BookDTO> response = isEntityNull(bookDTO.getId(), book, Book.class.getSimpleName());
         if(response != null) return response;
 
-        List<BookAuthor> ba = bookAuthorApi.findByBookId(bookDTO.getId());
+        List<BookAuthor> ba = bookAuthorService.findByBookId(bookDTO.getId());
         if(!ba.isEmpty()){
-            bookAuthorApi.deleteBookAuthors(ba);
+            bookAuthorService.deleteBookAuthors(ba);
         }
 
-        bookApi.deleteBook(book);
+        bookService.deleteBook(book);
 
         bookDTO.setStatus(StatusDTO.success(String.format("Deleted")));
         return ResponseEntity.ok(bookDTO);

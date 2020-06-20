@@ -30,13 +30,13 @@ public class DatabaseInitialization {
     private static final Logger logger = LogManager.getLogger(DatabaseInitialization.class);
 
     @Autowired
-    private BookService bookApi;
+    private BookService bookService;
 
     @Autowired
-    private AuthorService authorApi;
+    private AuthorService authorService;
 
     @Autowired
-    private BookAuthorService bookAuthorApi;
+    private BookAuthorService bookAuthorService;
 
     @Autowired
     private IUserRepository userRepository;
@@ -49,13 +49,13 @@ public class DatabaseInitialization {
         Book b1 = new Book();
         b1.setIbn("1111");
         b1.setTitle("First book");
-        b1 = bookApi.saveBook(b1);
+        b1 = bookService.saveBook(b1);
         logger.info("Created: {}", b1);
 
         Book b2 = new Book();
         b2.setIbn("2222");
         b2.setTitle("Second book");
-        b2 = bookApi.saveBook(b2);
+        b2 = bookService.saveBook(b2);
         logger.info("Created: {}", b2);
 
         Author a1 = new Author();
@@ -64,9 +64,9 @@ public class DatabaseInitialization {
         a1.setActive(true);
         a1.setFirstName("Jure");
         Calendar cal = Calendar.getInstance();
-        cal.set(1987, 11, 23);
+        cal.set(1987, Calendar.NOVEMBER, 23);
         a1.setDayOfBirth(cal);
-        a1 = authorApi.saveAuthor(a1);
+        a1 = authorService.saveAuthor(a1);
         logger.info("Created: {}", a1);
 
         Author a2 = new Author();
@@ -75,9 +75,9 @@ public class DatabaseInitialization {
         a2.setActive(true);
         a2.setFirstName("Nikolina");
         Calendar cal2 = Calendar.getInstance();
-        cal2.set(1991, 11, 15);
+        cal2.set(1991, Calendar.NOVEMBER, 15);
         a2.setDayOfBirth(cal2);
-        a2 = authorApi.saveAuthor(a2);
+        a2 = authorService.saveAuthor(a2);
         logger.info("Created: {}", a2);
 
         Author a3 = new Author();
@@ -86,22 +86,22 @@ public class DatabaseInitialization {
         a3.setActive(true);
         a3.setFirstName("Netko");
         a3.setDayOfBirth(cal2);
-        a3 = authorApi.saveAuthor(a3);
+        a3 = authorService.saveAuthor(a3);
         logger.info("Created: {}", a3);
 
         BookAuthor ba1 = new BookAuthor();
         ba1.setAuthor(a1);
         ba1.setBook(b1);
-        ba1 = bookAuthorApi.saveBookAuthor(ba1);
+        ba1 = bookAuthorService.saveBookAuthor(ba1);
         logger.info("Created: {}", ba1);
 
         BookAuthor ba2 = new BookAuthor();
         ba2.setAuthor(a1);
         ba2.setBook(b2);
-        ba2 = bookAuthorApi.saveBookAuthor(ba2);
+        ba2 = bookAuthorService.saveBookAuthor(ba2);
         logger.info("Created: {}", ba2);
 
-        logger.info(bookAuthorApi.findById(ba2.getBookAuthorId()));
+        logger.info(bookAuthorService.findById(ba2.getBookAuthorId()));
 
         addUsers();
     }
