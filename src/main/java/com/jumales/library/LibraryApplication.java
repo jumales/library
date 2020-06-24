@@ -22,13 +22,13 @@ public class LibraryApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/api/v1/books/**")
-						.allowedOrigins("http://localhost:3000")
+						.allowedOrigins("http://localhost:3000", "http://localhost:4200")
 						.allowedMethods("POST", "PUT", "GET", "DELETE");
 				registry.addMapping("/api/v1/authors/**")
-						.allowedOrigins("http://localhost:3000")
+						.allowedOrigins("http://localhost:3000", "http://localhost:4200")
 						.allowedMethods("POST", "PUT", "GET", "DELETE");
 				registry.addMapping("/api/v1/auth/**")
-						.allowedOrigins("http://localhost:3000")
+						.allowedOrigins("http://localhost:3000", "http://localhost:4200")
 						.allowedMethods("POST", "GET");
 			}
 		};
